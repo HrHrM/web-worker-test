@@ -1,16 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>n-queens solver</title>
-    <script src="queenWorker.js"></script>
-    <script>
-        var num = parseInt
-    </script>
 </head>
+
 <body>
-    Kaede
+ Kaede Akamatsu
+    <script type="src/queenWorker.js"></script>
+    <script>    
+        var num = parseInt(prompt("enter num"));
+        var all = (1 << num) - 1; 
+            count = 0;
+        for (var i = 0; i < num; i++){
+            var cols = 2 ** i;
+            var ld = 2 ** (i + 1);
+            var rd = 0;
+            if ( i > 0 ){
+                rd = 2 ** (i - 1);
+             }
+            var myWorker = new Worker('queenWorker.js');
+            myWorker.addEventListener('message', function(e){
+                count += e.data;
+                console.log('worker count: ', e.data);
+             }, false);
+             myWorker.postMessage([ld, cols, rd, all]);
+        }
+    </script>
 </body>
+
 </html>
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <title>n-queens solver</title>
+</head>
+
+<body>
+    Kaede Akamatsu
+  <script type="src/queenWorker.js"></script>
+  <script>
+  var num = parseInt(prompt("enter num"));
+  var all = (1 << num) - 1;
+  count = 0;
+  for (var i = 0; i < num; i++) {
+    var cols = 2 ** i;
+    var ld = 2 ** (i + 1);
+    var rd = 0;
+    if (i > 0) {
+      rd = 2 ** (i - 1);
+    }
+    var myWorker = new Worker('queenWorker.js');
+    myWorker.addEventListener('message', function(e) {
+      count += e.data;
+      console.log('worker count: ', e.data);
+    }, false);
+    myWorker.postMessage([ld, cols, rd, all]);
+  }
+  
+  </script>
+</body>
+
+</html> -->
